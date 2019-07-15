@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\Cart;
+use App\User;
 class CartTableSeeder extends Seeder
 {
     /**
@@ -13,12 +14,11 @@ class CartTableSeeder extends Seeder
     public function run()
     {
         $faker=Faker::create();
-        for($i=0;$i<100;$i++){
+        $users=User::all();
+        foreach($users as $user){
             Cart::create([
-            'user_id'=>App\User::all()->random()->id,
-            // 'product_id'=>App\Product::all()->random()->id,
-            // 'quantity'=>$faker->randomDigit(),
-            'status'=>$faker->name,
+                'user_id'=>$user->id,
+                'status'=>$faker->name,
             ]);
         }
     }

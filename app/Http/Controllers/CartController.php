@@ -13,17 +13,14 @@ class CartController extends Controller
     public function update($id,CartRequest $request){
         return response()->json(CartFacade::update($id,$request));
     }
-    public function destroy($id){
-        return response()->json(CartFacade::destroy($id));
-    }
     public function clearCart(){
         return response()->json(CartFacade::clearCart());
     }
+    public function buyNow($id){
+        return response()->json(CartFacade::buyNow($id));
+    }
     public function show($id){
         return response()->json(CartFacade::show($id));
-    }
-    public function buyNow(){
-        return response()->json(CartFacade::buyNow());
     }
 
 }

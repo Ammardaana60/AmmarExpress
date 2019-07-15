@@ -32,9 +32,9 @@ class User extends Authenticatable
         return $this->hasMany(Category::class);
     }
     public function cart(){
-     return $this->hasMany(Cart::class);
+     return $this->hasOne(Cart::class);
      }
-    
+   
     protected $fillable = [
         'name', 'email', 'password',
     ];

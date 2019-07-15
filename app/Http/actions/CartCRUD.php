@@ -3,8 +3,12 @@
 namespace App\Http\actions;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use App\Cart;
+use App\Order;
 use Auth;
+use App\Http\Resources\CartResource;
+
 class CartCRUD{
   public function create($request){
    Cart::create([
@@ -20,39 +24,27 @@ class CartCRUD{
        'status' => $cart->status,
         ]);
     }
-
+  }
+  public function show($id){
+    return response()->json(DB::connection()->select('select * from cart_items where cart_id='.$id));  
    }
-  public function destroy($id){
-  $cart=Cart::find($id);
-  $cart->delete();
-  Cache::forget('cart.'.$id);
- }
   public function clearCart(){
    $cart=Cart::where('user_id','=',Auth::user()->id)->get();
    $cart->delete();
    Cache::forget('cart.'.Auth::user()->id);
   }
-  public function show($id){
-  // $keys=Redis::keys('cart.'.$id);
-  // $items=[];
-  // dd($keys);
-  // foreach($keys as $key){
-  //   // $item[]=Redis::hgetall('cart.'.$id.'cartItem.'.)
-  // }
-  return cache::get('cart.'.$id.'.*');    
+  public function buyNow($id){
+  $cart=new CartResource(Cart::find($id));
   
-  }
-  public function buyNow(){
-    $cart=Cart::where('user_id','=',Auth::user()->id);
-    foreach($cart->cart_items as $items){
-             Order::create([
+      foreach($cart->cart_item as $items){
+        Order::create([
             'user_id'=>$cart->user_id,
             'product_id'=>$items->product_id,
             'quantity'=>$items->quantity,
         ]);
-        
-        $cart->status="paid";
-        $cart->save();
-    }
+
+      }       
+     $cart->delete();
+      return $cart;
   }
 }

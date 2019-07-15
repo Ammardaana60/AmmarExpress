@@ -15,7 +15,7 @@ $item=CartItem::create([
 Cache::forget('cart.'.$request->cart_id);
 $cartitems=CartItem::all();
 foreach($cartitems as $cartitem){
-Redis::hmset('cart.'.$request->cart_id.'item'.$cartitem->id,[
+Redis::hmset('cart.'.$request->cart_id.'item.'.$cartitem->id,[
 'cart_id'=>$cartitem->cart_id,
 'product_id'=>$cartitem->product_id,
 'quantity'=>$cartitem->quantity,
@@ -32,6 +32,7 @@ public function update($request,$id){
 'product_id'=>$item->product_id,
 'quantity'=>$item->quantity,
 ]);
+return $item;
 }
 public function destroy($id){
 $item=CartItem::find($id);

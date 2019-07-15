@@ -17,7 +17,7 @@ class CartResource extends JsonResource
         return [
             'id'=>$this->id,
             'user_id'=>$this->id,
-            'items'=> CartItemRescource::collection($this->cart_items),
+            'items'=> CartItemRescource::collection($this->cart_item),
         ];
     }
 }

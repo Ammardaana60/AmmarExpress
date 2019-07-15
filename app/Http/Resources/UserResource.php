@@ -18,7 +18,7 @@ class UserResource extends JsonResource
            'name'=>$this->name,
            'email'=>$this->email,
            'brands'=>BrandResource::collection($this->brands),  
-           'carts'=>CartResource::collection($this->cart),
+           'carts'=>new CartResource($this->cart),
         ];
     }
 }

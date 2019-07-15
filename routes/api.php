@@ -12,17 +12,6 @@ use App\User;
 use App\Http\Resources\CartResource;
 use App\Cart;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
@@ -54,12 +43,9 @@ Route::middleware('auth:api')->delete('brand/{id}','BrandController@destroy')->m
 
 //cartCRUD 
 Route::middleware('auth:api')->post('/cart','CartController@create');
-// Route::middleware('auth:api')->get('/cart/{id}','CartController@show');
 Route::middleware('auth:api')->get('/cart/{id}','CartController@show');
-Route::middleware('auth:api')->delete('/cart','CartController@clearCart')->middleware('checkIdCart');
-Route::middleware('auth:api')->delete('/cart/{id}','CartController@destroy')->middleware('checkIdCart');
-Route::middleware('auth:api')->put('/cart/{id}','CartController@update')->middleware('checkIdCart');
-Route::get('/cart/buynow','CartController@buyNow');
+Route::middleware('auth:api')->delete('/cart/{id}','CartController@clearCart')->middleware('checkIdCart');
+Route::middleware('auth:api')->get('/buynow/{id}','CartController@buyNow')->middleware('checkIdCart');
 //cartItemCRUD
 Route::middleware('auth:api')->post('/cartitem','CartItemController@create');
 Route::middleware('auth:api')->put('/cartitem/{id}','CartItemController@update');

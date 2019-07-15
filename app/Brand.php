@@ -14,6 +14,6 @@ class Brand extends Model
     return $this->belongsToMany(Category::class);
 }
    public function user(){
-    return $this->belongsTo(Category::class);
+    return $this->belongsTo(User::class);
    }
 }
