@@ -3,10 +3,11 @@
 
 namespace App\Http\actions;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 use App\CartItem;
 class CartItemCRUD {
-public function createItems($request){
-$item=CartItems::create([
+public function create($request){
+$item=CartItem::create([
 'cart_id'=>$request->cart_id,
 'product_id'=>$request->product_id,
 'quantity'=>$request->quantity,
