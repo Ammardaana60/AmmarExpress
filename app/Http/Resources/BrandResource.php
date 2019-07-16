@@ -16,7 +16,7 @@ class BrandResource extends JsonResource
     {
         return [
              'brand_name'=>$this->brand_name,
-             'products'=>ProductResource::collection($this->product),
+             'products'=>$this->product,
         ];
     }
 }
