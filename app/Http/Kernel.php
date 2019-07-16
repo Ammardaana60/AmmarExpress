@@ -63,7 +63,7 @@ class Kernel extends HttpKernel
         'checkId'=> \App\Http\Middleware\checkId::class,
         'checkIdBrand'=> \App\Http\Middleware\checkIdBrand::class,
         'checkIdCart'=> \App\Http\Middleware\checkIdCart::class,
-        'checkIdCartItem'=>\App\HTTP\Middleware\checkIdCartItem::class,
+        'checkIdCartItem'=>\App\Http\Middleware\checkIdCartItem::class,
     ];
 
     /**

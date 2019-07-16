@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use App\Cart;
+use App\CartItem;
 use App\Order;
 use Auth;
 use App\Http\Resources\CartResource;
@@ -34,17 +35,15 @@ class CartCRUD{
    Cache::forget('cart.'.Auth::user()->id);
   }
   public function buyNow($id){
-  $cart=new CartResource(Cart::find($id));
-  
-      foreach($cart->cart_item as $items){
+  $cartitem=CartItem::where('cart_id','=',$id)->get();
+     foreach($cartitem as $items){
         Order::create([
-            'user_id'=>$cart->user_id,
+            'user_id'=>Auth::user()->id,
             'product_id'=>$items->product_id,
             'quantity'=>$items->quantity,
         ]);
-
+      $items->delete();
       }       
-     $cart->delete();
-      return $cart;
+      return 'done';
   }
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Cart;
+use App\CartItem;
 use Auth;
 use Illuminate\Support\Facades\DB;
 class checkIdCartItem
@@ -16,12 +18,13 @@ class checkIdCartItem
      */
     public function handle($request, Closure $next)
     {
-     $cart_id=DB::connection()->select('select cart_id from cart_item where id='.$request->segment(3));
-     $user_id=DB::connection()->select('select user_id from cart_item where id='.$cart_id);
-     if($user_id==Auth::user()->id)
+
+     $cart_item=CartItem::find($request->segment(3));
+      $cart=Cart::find($cart_item->cart_id);
+      if($cart->user_id==Auth::user()->id)
         return $next($request);
         else {
-            return 'unauthorized to CRUD this cart';
+            return response()->json('unauthorized to CRUD this cart');
         }
     }
 }

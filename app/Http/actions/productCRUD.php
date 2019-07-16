@@ -25,7 +25,7 @@ class productCRUD{
      Cache::forget('product.*');
      $products=Product::all();
      foreach($products as $product){
-      Redis::hmset('product.'.$product->id,[
+      Cache::put('product.'.$product->id,[
          'id' => $product->id,
          'product_name' => $product->product_name,
          'product_description' => $product->product_description,
@@ -49,7 +49,7 @@ class productCRUD{
     $product->product_price=$request->product_price;   
     $product->images=$image;
     $product->save();
-      Redis::hmset('product.'.$id,[
+     Cache::put('product.'.$id,[
          'id' => $id,
          'product_name' => $product->product_name,
          'product_description' => $product->product_description,
