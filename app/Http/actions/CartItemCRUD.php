@@ -10,6 +10,8 @@ class CartItemCRUD {
 public function create($request){
 $product=Product::find($request->product_id);
 if($product->product_quantity>=$request->quantity){
+$product->product_quantity=$product->product_quantity-$request->quantity;
+$product->save();
 $item=CartItem::create([
 'cart_id'=>$request->cart_id,
 'product_id'=>$request->product_id,
@@ -34,8 +36,21 @@ public function update($request,$id){
  $item=CartItem::find($id);
  $product=Product::find($item->product_id);
  if($product->product_quantity>=$request->quantity){
+ $product->product_quantity=$product->product_quantity-$request->quantity;
+ $product->save();
  $item->quantity=$request->quantity;
  $item->save();
+ Cache::put('product.'.$product->id,[
+    'id' => $product->id,
+    'product_name' => $product->product_name,
+    'product_description' => $product->product_description,
+    'product_price' => $product->product_price,
+    'product_quantity' => $product->product_quantity,
+    'product_rating' => $product->product_rating,
+    'brand_id'=>$product->brand_id,
+    'category_id'=>$product->category_id,
+    'images'=>$product->image,
+    ]);
 }
  else {
     return 'the quantity available isn'.$product->product_quantity;
