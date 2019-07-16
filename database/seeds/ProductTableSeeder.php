@@ -22,7 +22,7 @@ class ProductTableSeeder extends Seeder
              'product_rating'=>0,
              'product_description'=> $faker->paragraph(),
              'product_price'=>1000,
-            //  'images'=>$faker->name(),
+             'images'=>$faker->url(),
             ]);
     }
     }
