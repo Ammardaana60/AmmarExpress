@@ -13,8 +13,8 @@ class CartController extends Controller
     public function update($id,CartRequest $request){
         return response()->json(CartFacade::update($id,$request));
     }
-    public function clearCart(){
-        return response()->json(CartFacade::clearCart());
+    public function clearCart($id){
+        return response()->json(CartFacade::clearCart($id));
     }
     public function buyNow($id){
         return response()->json(CartFacade::buyNow($id));

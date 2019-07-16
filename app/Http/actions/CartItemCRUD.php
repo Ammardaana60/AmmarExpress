@@ -8,8 +8,6 @@ use App\CartItem;
 use App\Product;
 class CartItemCRUD {
 public function create($request){
-    // dd('create');
-    
 $product=Product::find($request->product_id);
 if($product->product_quantity>=$request->quantity){
 $item=CartItem::create([

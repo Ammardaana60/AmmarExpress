@@ -44,7 +44,7 @@ Route::middleware('auth:api')->delete('brand/{id}','BrandController@destroy')->m
 //cartCRUD 
 Route::middleware('auth:api')->post('/cart','CartController@create');
 Route::middleware('auth:api')->get('/cart/{id}','CartController@show');
-Route::middleware('auth:api')->delete('/cart/{id}','CartController@clearCart')->middleware('checkIdCart');
+Route::middleware('auth:api')->delete('/clearcart/{id}','CartController@clearCart')->middleware('checkIdCart');
 Route::middleware('auth:api')->get('/buynow/{id}','CartController@buyNow')->middleware('checkIdCart');
 //cartItemCRUD
 Route::middleware('auth:api')->post('/cartitem','CartItemController@create');

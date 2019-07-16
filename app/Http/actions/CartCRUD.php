@@ -29,10 +29,10 @@ class CartCRUD{
   public function show($id){
     return response()->json(DB::connection()->select('select * from cart_items where cart_id='.$id));  
    }
-  public function clearCart(){
-   $cart=Cart::where('user_id','=',Auth::user()->id)->get();
-   $cart->delete();
-   Cache::forget('cart.'.Auth::user()->id);
+  public function clearCart($id){
+   $cartitem=CartItem::where('cart_id','=',$id)->delete();
+    return response()->json($cartitem);
+    Cache::forget('cart.'.Auth::user()->id.'item.*');
   }
   public function buyNow($id){
   $cartitem=CartItem::where('cart_id','=',$id)->get();
