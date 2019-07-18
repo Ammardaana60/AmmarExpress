@@ -1,30 +1,32 @@
 <?php
 namespace App\Http\actions;
-// use Predis\client;
+use Auth;
 use Illuminate\Support\Facades\Redis;        
 use Illuminate\Support\Facades\Cache;        
 use App\Product;
 class productCRUD{
    public function search($request){
-      $products=new Product();
-      return $products->search($request)->get();
+      // $products=new Product();
+      // return $products->search($request)->get();
+      // $product=Product::find(198);
+      // return response()->json(Product::find(198));
    }
    public function createProduct($pro){
-      $image=$pro->file('images')->store('productImage');
-      
-      $product=Product::create([
-      'product_name' => $pro->product_name,
-      'product_description' => $pro->product_description,
-      'product_price' => $pro->product_price,
-      'product_quantity' => $pro->product_quantity,
-      'product_rating' =>0,
-      'brand_id'=>$pro->brand_id,
-      'category_id'=>$pro->category_id,
-      'images'=>$image,
-     ]);
-     Cache::forget('product.*');
-     $products=Product::all();
-     foreach($products as $product){
+      $product=new Product();
+      $product->product_name=$pro->product_name;
+      $product->product_description=$pro->product_description;
+      $product->product_price= $pro->product_price;
+      $product->product_quantity=$pro->product_quantity;
+      $product->product_rating=0;
+      $product->properities=$pro->properities;
+      $product->tag=$pro->tag;
+      $product->brand_id=$pro->brand_id;
+      $product->category_id=$pro->category_id;
+      $product->images=$product->addMedia($pro->images)->toMediaCollection('PrdocutImages');
+      $product->save(); 
+      Cache::forget('product.*');
+      $products=Product::all();
+      foreach($products as $product){
       Cache::put('product.'.$product->id,[
          'id' => $product->id,
          'product_name' => $product->product_name,
@@ -34,11 +36,11 @@ class productCRUD{
          'product_rating' => $product->product_rating,
          'brand_id'=>$product->brand_id,
          'category_id'=>$product->category_id,
-         'images'=>$image,
-         ]);
-     } 
-     
-     return $product;
+         'images'=>$product->getMedia(),
+
+           ]);
+     }
+      return $product;
     }
     public function updateProduct($id,$request){
     $image=$request->file('images')->store('productImages');
@@ -68,7 +70,7 @@ class productCRUD{
       Cache::forget('product.'.$id);
     }
     public function showProduct($id){
-     return Cache::get('product.'.$id);
+     return Product::find($id);
      } 
     public function index(){
      $keys=Redis::keys('product.*');

@@ -13,7 +13,7 @@ if($product->product_quantity>=$request->quantity){
 $product->product_quantity=$product->product_quantity-$request->quantity;
 $product->save();
 $item=CartItem::create([
-'cart_id'=>$request->cart_id,
+'cart_id'=>Auth::user()->id,
 'product_id'=>$request->product_id,
 'quantity'=>$request->quantity,
 ]);
@@ -21,7 +21,7 @@ $item=CartItem::create([
  else {
     return 'the quantity available isn'.$product->product_quantity;
  }
-Cache::forget('cart.'.$request->cart_id);
+Cache::forget('cart.'.Auth::user()->id);
 $cartitems=CartItem::all();
 foreach($cartitems as $cartitem){
 Redis::hmset('cart.'.$request->cart_id.'item.'.$cartitem->id,[
@@ -55,7 +55,7 @@ public function update($request,$id){
  else {
     return 'the quantity available isn'.$product->product_quantity;
 }
- Redis::hmset('cart.'.$request->cart_id.'item.'.$item->id,[
+ Cache::put('cart.'.Auth::user()->id.'item.'.$item->id,[
 'cart_id'=>$item->cart_id,
 'product_id'=>$item->product_id,
 'quantity'=>$item->quantity,

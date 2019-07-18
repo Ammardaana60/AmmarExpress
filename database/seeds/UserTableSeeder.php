@@ -3,6 +3,8 @@
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\User;
+use App\Http\actions\CartFacade;
+use App\Http\actions\PocketFacade;
 class UserTableSeeder extends Seeder
 {
     /**
@@ -20,6 +22,8 @@ class UserTableSeeder extends Seeder
                 'password'=>Hash::make('fakerfaker'),
             ]);
             $token=$user->createToken('dev')->accessToken;
+            CartFacade::create($user->id);
+            PocketFacade::create($user->id);
 
         }
     }

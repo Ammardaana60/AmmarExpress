@@ -1,16 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-use App\Http\Resources\CategoryResource;
-use App\Category;
-use App\Http\Resources\ProductResource;
-use App\Product;
-use App\Http\Resources\BrandResource;
-use App\Brand;
-use App\Http\Resources\UserResource;
-use App\User;
-use App\Http\Resources\CartResource;
-use App\Cart;
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
@@ -18,51 +7,48 @@ use App\Cart;
 
 //search
 Route::post('/search','productController@search');
+
 //userCRUD and resources
 Route::post('/login','usercontroller@login');
 Route::post('/register','usercontroller@register');
-Route::get('/profile/{id}',function($id){
-    return new UserResource(User::find($id));
-  });
+
 //product CRUD and resources
-Route::middleware('auth:api')->post('/product','productController@create');
-Route::middleware('auth:api')->get('/product','productController@index');
-Route::middleware('auth:api')->get('/product/{id}','productController@show');
-Route::middleware('auth:api')->delete('/product/{id}','productController@destroy')->middleware('checkId');
-Route::middleware('auth:api')->put('/product/{id}','productController@update')->middleware('checkId');
-Route::get('/products',function(){
-    return ProductResource::collection(Product::all());
-});        
+Route::middleware('auth:api')->get('/products','productController@index')->middleware('checklocale');
+Route::middleware('auth:api')->post('/products','productController@create')->middleware('checkRole');
+Route::middleware('auth:api')->get('/products','productController@index');
+Route::middleware('auth:api')->get('/products/{id}','productController@show');
+Route::middleware('auth:api')->delete('/products/{id}','productController@destroy')->middleware('checkId');
+Route::middleware('auth:api')->put('/products/{id}','productController@update')->middleware('checkId');  
 
 //BrandCRUD and resources
-Route::middleware('auth:api')->post('/brand','BrandController@create');
-Route::middleware('auth:api')->get('/brand','BrandController@index');
-Route::middleware('auth:api')->get('/brand/{id}','BrandController@show');
-Route::middleware('auth:api')->put('/brand/{id}','BrandController@update')->middleware('checkIdBrand');
-Route::middleware('auth:api')->delete('brand/{id}','BrandController@destroy')->middleware('checkIdBrand');
+Route::middleware('auth:api')->post('/brands','BrandController@create')->middleware('checkRole');
+Route::middleware('auth:api')->get('/brands','BrandController@index');
+Route::middleware('auth:api')->get('/brands/{id}','BrandController@show');
+Route::middleware('auth:api')->put('/brands/{id}','BrandController@update')->middleware('checkIdBrand');
+Route::middleware('auth:api')->delete('brands/{id}','BrandController@destroy')->middleware('checkIdBrand');
+Route::middleware('auth:api')->get('/buynow/{id}','CartController@buyNow')->middleware('checkIdCart');
 
 //cartCRUD 
-Route::middleware('auth:api')->post('/cart','CartController@create');
-Route::middleware('auth:api')->get('/cart/{id}','CartController@show');
-Route::middleware('auth:api')->delete('/clearcart/{id}','CartController@clearCart')->middleware('checkIdCart');
-Route::middleware('auth:api')->get('/buynow/{id}','CartController@buyNow')->middleware('checkIdCart');
+Route::middleware('auth:api')->get('/carts','CartController@show');
+Route::middleware('auth:api')->delete('/carts','CartController@clearCart')->middleware('checkIdCart');
 //cartItemCRUD
-Route::middleware('auth:api')->post('/cartitem','CartItemController@create');
-Route::middleware('auth:api')->put('/cartitem/{id}','CartItemController@update')->middleware('checkIdCartItem');
-Route::middleware('auth:api')->delete('/cartitem/{id}','CartItemController@destroy')->middleware('checkIdCartItem');
+Route::middleware('auth:api')->post('/cartitems','CartItemController@create');
+Route::middleware('auth:api')->put('/cartitems/{id}','CartItemController@update')->middleware('checkIdCartItem');
+Route::middleware('auth:api')->delete('/cartitems/{id}','CartItemController@destroy')->middleware('checkIdCartItem');
 
+//pockets
+Route::middleware('auth:api')->put('/pocket','pocketController@update');
+Route::middleware('auth:api')->post('/payment','pocketController@payment')->middleware('checkIdPocket');
 //resources//
-Route::get('/category',function(){
-    return categoryResource::collection(Category::all());
+Route::get('/profile/{id}','ApiResourcesController@profile');
+Route::get('/category','ApiResourcesController@categories');
+Route::get('/brands','ApiResourcesController@brands');
+Route::get('/products','ApiResourcesController@products');
+
+
+// /testing
+Route::get('/pockets',function(){
+return App\pocket::all();
 });
-Route::get('/brands',function(){
-    return BrandResource::collection(Brand::all());
-});
-Route::get('/brands/{id}',function($id){
-return new BrandResource(Brand::find($id));
-});
-// Route::get('/cart',function(){
-//     $user=User::find(Auth::user()->id);
-// return new CartResource(Cart::find($user->cart()));
-// });
+
 

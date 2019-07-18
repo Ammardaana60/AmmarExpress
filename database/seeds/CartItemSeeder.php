@@ -19,7 +19,7 @@ class CartItemSeeder extends Seeder
             CartItem::create([
                 'product_id'=>Product::all()->random()->id,
                 'cart_id'=>Cart::all()->random()->id,
-                'quantity'=>$faker->randomDigit(),
+                'quantity'=>2,
             ]);
         }
     }

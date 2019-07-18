@@ -17,7 +17,7 @@ class CategoryResource extends JsonResource
         return [
             'category_name'=>$this->category_name,
             // 'brands'=>BrandResource::collection($this->brand),  
-            'brands'=>$this->brand,            
+            'brands'=>$this->brands,            
 
         ];
     }

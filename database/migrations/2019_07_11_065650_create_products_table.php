@@ -19,9 +19,13 @@ class CreateProductsTable extends Migration
             $table->longText('product_description');
             $table->float('product_price')->unsigned();
             $table->integer('product_quantity')->unsigned();
+            $table->string('ARproduct_name');
+            $table->longText('ARproduct_description');
             $table->unsignedBigInteger('category_id');
             $table->integer('product_rating')->unsigned();
             $table->unsignedBigInteger('brand_id');
+            $table->string('properities');
+            $table->string('tag');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
             $table->softDeletes();

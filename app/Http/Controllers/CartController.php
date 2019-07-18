@@ -7,20 +7,17 @@ use App\Http\actions\CartFacade;
 use App\Http\Requests\CartRequest;
 class CartController extends Controller
 {
-    public function create(CartRequest $request){
-        return response()->json(CartFacade::create($request));
-    }
     public function update($id,CartRequest $request){
         return response()->json(CartFacade::update($id,$request));
     }
-    public function clearCart($id){
-        return response()->json(CartFacade::clearCart($id));
+    public function clearCart(){
+        return response()->json(CartFacade::clearCart());
     }
-    public function buyNow($id){
-        return response()->json(CartFacade::buyNow($id));
+    public function buyNow(){
+        return response()->json(CartFacade::buyNow());
     }
-    public function show($id){
-        return response()->json(CartFacade::show($id));
+    public function show(){
+        return response()->json(CartFacade::show());
     }
 
 }

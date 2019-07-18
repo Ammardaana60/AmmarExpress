@@ -15,10 +15,10 @@ class User extends Authenticatable
      *
      * @var array
      */
-    public function comment(){
+    public function comments(){
         return $this->hasMany(Comment::class);
     }
-    public function cartItem(){
+    public function items(){
         return $this->hasMany(CartItem::class);
     }
     
@@ -28,13 +28,15 @@ class User extends Authenticatable
     public function brands(){
         return $this->hasMany(Brand::class);
     }
-    public function category(){
+    public function categories(){
         return $this->hasMany(Category::class);
     }
     public function cart(){
      return $this->hasOne(Cart::class);
      }
-   
+   public function pocket(){
+       return $this->hasOne(pocket::class);
+   }
     protected $fillable = [
         'name', 'email', 'password','role'
     ];

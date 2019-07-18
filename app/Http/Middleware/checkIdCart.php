@@ -16,8 +16,7 @@ class checkIdCart
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {    $id=$request->segment(3);
-        $cart=Cart::find($id);
+    {    $cart=Cart::find(Auth::user()->id);
         if($cart->user_id=Auth::user()->id){
            return $next($request);
          }
