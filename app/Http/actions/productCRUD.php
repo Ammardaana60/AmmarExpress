@@ -3,7 +3,8 @@ namespace App\Http\actions;
 use Auth;
 use Illuminate\Support\Facades\Redis;        
 use Illuminate\Support\Facades\Cache;        
-use App\Product;
+use Illuminate\Support\Facades\DB;
+ use App\Product;
 class productCRUD{
    public function search($request){
       // $products=new Product();
@@ -80,6 +81,8 @@ class productCRUD{
      }
       return  $client;
     }
-
-    
+    public function AR_index(){
+       $product=DB::select('select product_rating,product_price,ARproduct_name,ARproduct_description from products');
+    return $product;
+    }
 }

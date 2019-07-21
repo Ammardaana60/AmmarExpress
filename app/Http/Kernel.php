@@ -65,8 +65,10 @@ class Kernel extends HttpKernel
         'checkIdCart'=> \App\Http\Middleware\checkIdCart::class,
         'checkIdCartItem'=>\App\Http\Middleware\checkIdCartItem::class,
         'checkRole'=>\App\Http\Middleware\checkRole::class,
+        'checlocale'=>\App\Http\Middleware\checlocale::class,
         'checkIdPocket'=>\App\Http\Middleware\checkIdPocket::class,
     ];
+
 
     /**
      * The priority-sorted list of middleware.

@@ -13,9 +13,9 @@ Route::post('/login','usercontroller@login');
 Route::post('/register','usercontroller@register');
 
 //product CRUD and resources
-Route::middleware('auth:api')->get('/products','productController@index')->middleware('checklocale');
-Route::middleware('auth:api')->post('/products','productController@create')->middleware('checkRole');
 Route::middleware('auth:api')->get('/products','productController@index');
+Route::middleware('auth:api')->post('/products','productController@create')->middleware('checkRole');
+Route::middleware('auth:api')->get('/products/{lang}','productController@index')->middleware('checlocale');
 Route::middleware('auth:api')->get('/products/{id}','productController@show');
 Route::middleware('auth:api')->delete('/products/{id}','productController@destroy')->middleware('checkId');
 Route::middleware('auth:api')->put('/products/{id}','productController@update')->middleware('checkId');  

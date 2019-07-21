@@ -3,7 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Http\actions\ProductFacade;
 
+// use lang;/*  */
 class checlocale
 {
     /**
@@ -15,7 +17,15 @@ class checlocale
      */
     public function handle($request, Closure $next)
     {
-        
+     
+        $lang=$request->segment(3);
+        if($lang=='en'){
+          return response()->json(ProductFacade::index());
+        }else if($lang=='ar'){
+         return response()->json(ProductFacade::AR_index());
+        }else{
+            return 'language not support';
+        }
         return $next($request);
     }
 }
