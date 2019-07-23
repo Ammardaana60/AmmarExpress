@@ -3,11 +3,18 @@
 namespace App\Http\actions;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use App\Brand;
+use App\Product;
+use Auth;
 class BrandCRUD{
+   public function search($brand){
+   $brand=Brand::where('brand_name','=',$brand)->paginate(5);  
+  return $brand;
+   }
     public function create($request){
      $newbrand=Brand::create([
-        'brand_name'=>$request->brand_name,'user_id'=>$request->user_id,'category_id'=>$request->category_id
+        'brand_name'=>$request->brand_name,'user_id'=>Auth::user()->id,'category_id'=>$request->category_id,
      ]);
     cache::forget('brand.*');
     $brands=Brand::all();

@@ -3,11 +3,11 @@
 namespace App\Http\actions;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
+use App\Productdetails;
 use App\Cart;
 use App\CartItem;
 use App\Product;
-use App\Order;
+// use Productdetails;
 use Auth;
 
 class CartCRUD{
@@ -27,54 +27,55 @@ class CartCRUD{
     }
   }
   public function show(){
-    return response()->json(DB::connection()->select('select * from cart_items where cart_id='.Auth::user()->id));  
+    return response()->json(CartItem::where('cart_id','=',Auth::user()->id)->where('status','=',1)->get());  
    }
-  public function clearCart(){
-    $cartitem=CartItem::where('cart_id','=',Auth::user()->id)->get();
-    return response()->json($cartitem);
-    Cache::forget('cart.'.Auth::user()->id.'item.*');
+   public function totalPrice(){
+    $items=CartItem::where('cart_id','=',Auth::user()->id)->where('status','=',1)->get();
+    $totalprice=0;
+    $check=CartFacade::checkQuantity();
+    if($check==0){
+      return 0;
+    }else{
+    foreach($items as $item){
+      $itemDiscount=Productdetails::where('product_id','=',$item->product_id)->where('color','=',$item->color)->where('size','=',$item->size)->get();
+      foreach($itemDiscount as $productdetails){
+        $product=Product::find($item->product_id);
+        $discount=$product->discount+$productdetails->discount;
+       if($discount!=0){
+         $prod=$product->product_price*$discount;
+         $totalprice=$totalprice+($product->product_price-$prod)*$item->quantity;
+         }else{
+         $totalprice=$totalprice+$product->product_price*$item->quantity;
+         }
+    }
+   }
+   return $totalprice;
+    }
   }
-  public function buyNow(){
-  $cartitem=CartItem::where('cart_id','=',Auth::user()->id)->get();
-     foreach($cartitem as $items){
-        Order::create([
-            'user_id'=>Auth::user()->id,
-            'product_id'=>$items->product_id,
-            'quantity'=>$items->quantity,
-        ]);
-      $items->delete();
-      }       
-      return 'done';
-  }
-  public function totalPrice(){
- $items=CartItem::where('cart_id','=',Auth::user()->id)->get();
- $totalprice=0;
- $check=CartFacade::checkQuantity();
- if($check!='not enough'){
- foreach($items as $item){
-   $product=Product::find($item->product_id);
-   $totalprice=$totalprice+($product->product_price*$item->quantity);
-   $product->product_quantity= $product->product_quantity-$item->quantity;
-   $product->save();
- }
- return $totalprice;
- }
- else {
-   return "isn't enough";
- }
-  }
+
   public function checkQuantity(){
-    $items=CartItem::where('cart_id','=',Auth::user()->id)->get();
-    //  dd($items);
-     $totalprice=0;
-     foreach($items as $item){
-       $product=Product::find($item->product_id);
-       if($product->product_quantity>=$item->quantity){
+   $items=CartItem::where('cart_id','=',Auth::user()->id)->where('status','=',1)->get();   //  dd($items);
+   foreach($items as $item){
+  $itemDiscount=Productdetails::where('product_id','=',$item->product_id)->where('color','=',$item->color)->where('size','=',$item->size)->get();
+  foreach($itemDiscount as $productdetails){
+    if($productdetails->quantity>=$item->quantity)
         continue;
-      }else {
-         return 'not enough';
-       }
-  
-}
+    else
+         return 0;
+   }
   }
+  return 1;
+}
+public function UpdateQuantity(){
+  $items=CartItem::where('cart_id','=',Auth::user()->id)->where('status','=',1)->get();
+  foreach($items as $item){
+    $product=Product::find($item->product_id);
+    $product->product_quantity= $product->product_quantity-$item->quantity;
+    $product->save();
+    $productDet=Productdetails::where('product_id','=',$item->product_id)->where('color','=',$item->color)->where('size','=',$item->size)->get();
+    foreach($productDet as $productDetails)
+    $productDetails->quantity=$productDetails->quantity-$item->quantity;
+    $productDetails->save();
+  }
+}
 }

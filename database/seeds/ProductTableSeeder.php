@@ -3,6 +3,8 @@
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\Product;
+use App\Productdetails;
+
 class ProductTableSeeder extends Seeder
 {
     /**
@@ -11,23 +13,26 @@ class ProductTableSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
-        $faker=Faker::create();
-        for($i=0;$i<100;$i++){
-            Product::create([
-            'brand_id'=>App\Brand::all()->random()->id,
-            'category_id'=>App\Category::all()->random()->id,
-            'product_name'=>$faker->name(),
-             'product_quantity'=>40,
-             'product_rating'=>0,
-             'properities'=>$faker->sentence,
-             'tag'=>$faker->name,
-             'ARproduct_name'=>'نْتُ أُرِيدُ أَنْ أَقْرَأَ كِتَابًا عَنْ تَارِيخِ ٱلْمَرْأَةِ فِي فَرَنْسَا',
-             'ARproduct_description'=>'نَارِيخِ ٱلْمَرْأَةِ فِي فَرَنْسَا',
-             'product_description'=> $faker->paragraph(),
-             'product_price'=>1000,
-             'images'=>$faker->url(),
-            ]);
+    {      
+            $faker=Faker::create();
+            for($i=0;$i<50;$i++){
+            $product=new Product();
+            $product->brand_id=App\Brand::all()->random()->id;
+            $product->category_id=App\Category::all()->random()->id;
+            $product->product_name=$faker->name();
+            $product->product_description=$faker->paragraph();
+            $product->properities=$faker->sentence;
+            $product->tag=$faker->name;
+            $product->ARproduct_name='َقْرَأَ كِتَابً';
+            $product->ARproduct_description='نْتُ أُرِيدُ أَنْ أَقْرَأَ كِتَابًا عَنْ تَارِيخِ ٱلْمَرْأَةِ فِي فَرَنْسَا';
+            $product->product_price=1000;
+            $product->status=1;
+            $product->images=$faker->image();
+            $product->product_quantity=0;
+            $product->save(); 
+           }
+           
     }
-    }
+     
 }
+

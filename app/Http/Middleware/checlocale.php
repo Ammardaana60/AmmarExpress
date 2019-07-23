@@ -17,8 +17,7 @@ class checlocale
      */
     public function handle($request, Closure $next)
     {
-     
-        $lang=$request->segment(3);
+         $lang=$request->segment(4);
         if($lang=='en'){
           return response()->json(ProductFacade::index());
         }else if($lang=='ar'){

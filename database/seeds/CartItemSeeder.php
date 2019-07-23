@@ -20,6 +20,9 @@ class CartItemSeeder extends Seeder
                 'product_id'=>Product::all()->random()->id,
                 'cart_id'=>Cart::all()->random()->id,
                 'quantity'=>2,
+                'size'=>$faker->randomDigit,
+                'color'=>$faker->ColorName,
+                
             ]);
         }
     }

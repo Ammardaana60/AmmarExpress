@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\pocket;
+use App\Pocket;
 use Auth;
 class checkIdPocket
 {
@@ -16,8 +16,8 @@ class checkIdPocket
      */
     public function handle($request, Closure $next)
     {
-        $pocket=Pocket::find(Auth::user()->id);
-        if($pocket->user_id==Auth::user()->id){
+       $pocket=Pocket::find(Auth::user()->id);
+       if($pocket->user_id==Auth::user()->id){
         return $next($request);
         }else {
             return response()->json('not authorize to update this pocket');

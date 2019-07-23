@@ -1,32 +1,34 @@
 <?php
 
-
+use App\Notifications\productAddToCart;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
 
-//search
+//search by productname using Algolia
 Route::post('/search','productController@search');
+//search by brands 
+Route::post('/search/{brand}','BrandController@search');
 
 //userCRUD and resources
 Route::post('/login','usercontroller@login');
 Route::post('/register','usercontroller@register');
 
 //product CRUD and resources
-Route::middleware('auth:api')->get('/products','productController@index');
-Route::middleware('auth:api')->post('/products','productController@create')->middleware('checkRole');
-Route::middleware('auth:api')->get('/products/{lang}','productController@index')->middleware('checlocale');
-Route::middleware('auth:api')->get('/products/{id}','productController@show');
+Route::get('/products','productController@index');
+Route::middleware('auth:api')->post('/products','productController@create')->middleware('checkRole')->middleware('checkBrand');
+Route::get('/products/lang/{lang}','productController@index')->middleware('checlocale');
+Route::get('/products/{id}','productController@show');
 Route::middleware('auth:api')->delete('/products/{id}','productController@destroy')->middleware('checkId');
-Route::middleware('auth:api')->put('/products/{id}','productController@update')->middleware('checkId');  
+Route::middleware('auth:api')->put('/products/{id}','productController@update');  
 
 //BrandCRUD and resources
-Route::middleware('auth:api')->post('/brands','BrandController@create')->middleware('checkRole');
-Route::middleware('auth:api')->get('/brands','BrandController@index');
-Route::middleware('auth:api')->get('/brands/{id}','BrandController@show');
+Route::post('/brands','BrandController@create')->middleware('checkRole');
+Route::get('/brands','BrandController@index');
+Route::get('/brands/{id}','BrandController@show');
 Route::middleware('auth:api')->put('/brands/{id}','BrandController@update')->middleware('checkIdBrand');
 Route::middleware('auth:api')->delete('brands/{id}','BrandController@destroy')->middleware('checkIdBrand');
-Route::middleware('auth:api')->get('/buynow/{id}','CartController@buyNow')->middleware('checkIdCart');
+Route::get('/buynow/{id}','CartController@buyNow')->middleware('checkIdCart');
 
 //cartCRUD 
 Route::middleware('auth:api')->get('/carts','CartController@show');
@@ -44,11 +46,4 @@ Route::get('/profile/{id}','ApiResourcesController@profile');
 Route::get('/category','ApiResourcesController@categories');
 Route::get('/brands','ApiResourcesController@brands');
 Route::get('/products','ApiResourcesController@products');
-
-
-// /testing
-Route::get('/pockets',function(){
-return App\pocket::all();
-});
-
 

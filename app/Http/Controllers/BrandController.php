@@ -22,4 +22,7 @@ class BrandController extends Controller
     public function index(){
         return response()->json(BrandFacade::index());
     }
+    public function search($brand){
+        return response()->json(BrandFacade::search($brand));
+    }
 }

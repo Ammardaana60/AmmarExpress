@@ -14,9 +14,10 @@ class checkRole
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {
+    { 
+       
         if(Auth::user()->role=='supplier')
-        return $next($request);
+               return $next($request);
         else
         return response()->json('please make login as a supplier ');
     }

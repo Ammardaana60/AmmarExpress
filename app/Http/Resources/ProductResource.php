@@ -24,6 +24,7 @@ class ProductResource extends JsonResource
             'product_quantity'=>$this->product_quantity,
             'images'=>$this->images,
             'comment'=>$this->comments,
+            'items'=>$this->details,
         ];
     }
 }

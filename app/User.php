@@ -37,8 +37,11 @@ class User extends Authenticatable
    public function pocket(){
        return $this->hasOne(pocket::class);
    }
+   public function address(){
+       return $this->hasMany(Address::class);
+   }
     protected $fillable = [
-        'name', 'email', 'password','role'
+        'name', 'email', 'password','role','country_id','city_id','postal_code'
     ];
 
     /**

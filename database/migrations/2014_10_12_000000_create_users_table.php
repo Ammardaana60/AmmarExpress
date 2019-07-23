@@ -20,6 +20,9 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role', ['normal', 'supplier' , 'admin'])->default('normal');
+            $table->integer('city_id');
+            $table->integer('country_id');
+            $table->integer('postal_code')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

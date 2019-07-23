@@ -15,6 +15,8 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->boolean('status')->default(1);///either 1 or 0
+            $table->float('discount')->default(0);
             $table->string('product_name');
             $table->longText('product_description');
             $table->float('product_price')->unsigned();
@@ -22,14 +24,14 @@ class CreateProductsTable extends Migration
             $table->string('ARproduct_name');
             $table->longText('ARproduct_description');
             $table->unsignedBigInteger('category_id');
-            $table->integer('product_rating')->unsigned();
             $table->unsignedBigInteger('brand_id');
             $table->string('properities');
             $table->string('tag');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
-            $table->softDeletes();
+            // $table->SoftDeletes();
             $table->timestamps();
+           
        
         });
     }

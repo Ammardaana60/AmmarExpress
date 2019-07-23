@@ -5,8 +5,6 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 use App\User;
 use Auth;
-use App\Cart;
-use App\CartItem;
 class UserCRUD {
 public function login($request){
       $credintal=[
@@ -27,12 +25,15 @@ public function register($request){
         'name'=>$request->name,
         'password'=>Hash::make($request->password),
         'role'=>$request->role,
+        'country_id'=>$request->country_id,
+        'city_id'=>$request->city_id,
+        'postal_code'=>$request->postal_code,
+
     ]);
-CartFacade::create();
-    PocketCRUD::createPocket();
+    CartFacade::create($user->id);
+    PocketFacade::create($user->id);
     $token=$user->createToken('dev')->accessToken;
     
     return $token;
 }
-
 }

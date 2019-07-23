@@ -25,7 +25,6 @@ class brandRequest extends FormRequest
     {
         return [
             'brand_name'=>'required|string|unique:brands',
-            'user_id'=>'required|integer',
             'category_id'=>'required|integer',
         ];
     }

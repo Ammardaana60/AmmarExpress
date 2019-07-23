@@ -67,6 +67,7 @@ class Kernel extends HttpKernel
         'checkRole'=>\App\Http\Middleware\checkRole::class,
         'checlocale'=>\App\Http\Middleware\checlocale::class,
         'checkIdPocket'=>\App\Http\Middleware\checkIdPocket::class,
+        'checkBrand'=>\App\Http\Middleware\checkBrand::class,
     ];
 
 

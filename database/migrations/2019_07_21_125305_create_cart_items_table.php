@@ -15,11 +15,16 @@ class CreateCartItemsTable extends Migration
     {
         Schema::create('cart_items', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('size');
+            $table->string('color');         
+            $table->integer('quantity');
+            $table->boolean('status')->default(1);
             $table->integer('cart_id')->unsigned();
             $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('order_id')->nullable();
             $table->foreign('cart_id')->references('id')->on('carts')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-           $table->integer('quantity');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -34,3 +39,5 @@ class CreateCartItemsTable extends Migration
         Schema::dropIfExists('cart_items');
     }
 }
+
+    

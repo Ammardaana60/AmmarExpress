@@ -15,6 +15,7 @@ class productController extends Controller
     return response()->json(ProductFacade::createProduct($request));
     }
     public function show($id){
+        
         return response()->json(ProductFacade::showProduct($id));
     }
     public function index(){

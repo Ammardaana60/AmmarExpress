@@ -20,6 +20,9 @@ class UserTableSeeder extends Seeder
                 'email'=>$faker->email(),
                 'name'=>$faker->name(),
                 'password'=>Hash::make('fakerfaker'),
+                'country_id'=>$faker->randomDigit,
+                'city_id'=>$faker->randomDigit,
+                'postal_code'=>$faker->randomDigit,
             ]);
             $token=$user->createToken('dev')->accessToken;
             CartFacade::create($user->id);
