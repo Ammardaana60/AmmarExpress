@@ -2,6 +2,7 @@
 namespace App\Http\actions;
 use App\Transaction;
 use App\Pocket;
+use App\User;
 use App\Http\actions\orderFacade;
 use App\Notifications\productAddToCart;
 class transactionCRUD{
@@ -14,7 +15,8 @@ class transactionCRUD{
         'to_user'=>$request['to_user'],
         'cash'=>$request['price']*$request['quantity'],//price with discount
     ]);
-    $request['to_user']->notify(new productAddToCart());
+    $user=User::find($request['to_user']);
+    $user->notify(new productAddToCart());
     
  }
  

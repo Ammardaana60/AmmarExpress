@@ -23,7 +23,7 @@ class checlocale
         }else if($lang=='ar'){
          return response()->json(ProductFacade::AR_index());
         }else{
-            return 'language not support';
+            return response()->json('language not support');
         }
         return $next($request);
     }

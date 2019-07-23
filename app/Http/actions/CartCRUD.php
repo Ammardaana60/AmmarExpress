@@ -71,10 +71,16 @@ public function UpdateQuantity(){
   foreach($items as $item){
     $product=Product::find($item->product_id);
     $product->product_quantity= $product->product_quantity-$item->quantity;
+    if($product->product_quantity==0){
+      $product->status=0;
+    }
     $product->save();
     $productDet=Productdetails::where('product_id','=',$item->product_id)->where('color','=',$item->color)->where('size','=',$item->size)->get();
     foreach($productDet as $productDetails)
     $productDetails->quantity=$productDetails->quantity-$item->quantity;
+    if($productDetails->quantity==0){
+     $productDetails->itemStatus=0;
+    }
     $productDetails->save();
   }
 }
