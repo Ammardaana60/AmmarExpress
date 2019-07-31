@@ -35,7 +35,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        ],
+            ],
 
         'api' => [
             'throttle:60,1',
@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
         'checlocale'=>\App\Http\Middleware\checlocale::class,
         'checkIdPocket'=>\App\Http\Middleware\checkIdPocket::class,
         'checkBrand'=>\App\Http\Middleware\checkBrand::class,
+        'TokenCheck'=>\App\Http\Middleware\TokenCheck::class,
     ];
 
 

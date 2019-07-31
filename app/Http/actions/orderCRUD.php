@@ -3,14 +3,12 @@ namespace App\Http\actions;
 
 use App\Order;
 use Auth;
-
 class orderCRUD {
 
-    public function create(){
-        $order= Order::create([
-         'cart_id'=>Auth::user()->id,
-         'user_id'=>Auth::user()->id,
-       ]);
-     return $order->id;
-    }
+    public function create($id){
+         $order= new Order();
+         $order->cart_id=$id;
+         $order->user_id=$id;
+         $order->save();   
+  }
 }

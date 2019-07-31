@@ -3,16 +3,14 @@ namespace App\Http\actions;
 
 use App\Address;
 use Auth;
+use App\Order;
 class AddressCRUD{
-    public function create($order){
+    public function create($id){
+        $order=Order::where('user_id','=',$id)->latest()->first();
         Address::create([
-            'user_id'=>Auth::user()->id,
-            'order_id'=>$order,
+            'user_id'=>$id,
+            'order_id'=>$order->id,
         ]);
-    }
-//    public function update($request,$order){
-//        $address=User::find(Auth::user()->id);
-//        $address->=$order;
-//        $address->save();
-//    }
+  }
+
 }

@@ -27,7 +27,6 @@ class ProductTableSeeder extends Seeder
             $product->ARproduct_description='نْتُ أُرِيدُ أَنْ أَقْرَأَ كِتَابًا عَنْ تَارِيخِ ٱلْمَرْأَةِ فِي فَرَنْسَا';
             $product->product_price=1000;
             $product->status=1;
-            $product->images=$faker->image();
             $product->product_quantity=0;
             $product->save(); 
            }

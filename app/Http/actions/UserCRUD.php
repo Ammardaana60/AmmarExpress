@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 use App\User;
 use Auth;
+use App\Notifications\productAddToCart;
+
 class UserCRUD {
 public function login($request){
       $credintal=[
@@ -33,7 +35,11 @@ public function register($request){
     CartFacade::create($user->id);
     PocketFacade::create($user->id);
     $token=$user->createToken('dev')->accessToken;
-    
+    $request->session()->put($user->id,hex2bin(\random_bytes(16)));  
     return $token;
+}
+public function sendEmail($supplier_id){
+    $user=User::find($supplier_id);
+    $user->notify(new productAddToCart());
 }
 }

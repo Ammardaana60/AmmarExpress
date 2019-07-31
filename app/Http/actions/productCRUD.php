@@ -10,15 +10,10 @@ class productCRUD{
       $products=new Product();
       return $products->search($request)->paginate(5);
   }
-  public function ProductStatus($id){
-     $product=Product::find($id);
-     if($product->product_quantity==0){
-        $product->status=0;
-        $product->save();
-     }
-  }
+  
    public function createProduct($pro){
       $product=new Product();
+      $product->addMedia($pro->images)->toMediaCollection('productImages');
       $product->brand_id=$pro->brand_id;
       $product->category_id=$pro->category_id;
       $product->product_name=$pro->product_name;
@@ -29,14 +24,13 @@ class productCRUD{
       $product->ARproduct_description=$pro->ARproduct_description;
       $product->product_price=$pro->product_price;
       $product->status=1;
-      $product->images=$pro->images;
       $product->product_quantity=0;
       $product->save(); 
       return response()->json(productDetailsFacade::create($pro,$product->id));
     }
     public function updateProduct($id,$request){
-    $image=$request->file('images')->store('productImages');
-    $product=Product::find($id);
+ 
+      $product=Product::find($id);
     $product->product_name=$request->product_name;
     $product->product_description=$request->product_description;
     $product->product_quantity=$product->product_quantity+$request->product_quantity;
@@ -44,7 +38,6 @@ class productCRUD{
     if($request->product_quatity>0){
        $product->status=1;
     }
-    $product->images=$image;
     $product->save();
      Cache::put('product.'.$id,[
          'id' => $id,
@@ -55,9 +48,18 @@ class productCRUD{
          'rating' => $product->rating,
          'brand_id'=>$product->brand_id,
          'category_id'=>$product->category_id,
-         'images'=>$image,
-         ]);
-     return $product;
+          ]);
+
+          return $product;
+    }
+    public function ProductStatus($items){
+       foreach($items as $item){
+       $product=$item->product;
+       if($product->product_quantity==0){
+        $product->status=0;
+       }
+       $product->save();
+      }
     }
     public function destroyProduct($id){
       $product=Product::find($id);

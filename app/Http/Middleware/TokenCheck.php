@@ -3,9 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Pocket;
 use Auth;
-class checkIdPocket
+class TokenCheck
 {
     /**
      * Handle an incoming request.
@@ -16,7 +15,11 @@ class checkIdPocket
      */
     public function handle($request, Closure $next)
     {
-              return $next($request);
-      
-     }
+        
+       $token=session()->get(1);
+      if($token==$request->_token){
+       return $next($request);
+      }else 
+        return response()->json('unauthorized');
+    }
 }

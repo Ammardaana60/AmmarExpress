@@ -7,20 +7,22 @@ use Auth;
 use Illuminate\Support\Facades\Redis;
 use App\CartItem;
 use App\Product;
+use App\Order;
 use App\Productdetails;
 class CartItemCRUD {
 public function create($request){
+   // dd();
 $product=Product::find($request->product_id);
 $quantity=Productdetails::where('product_id','=',$request->product_id)->where('color','=',$request->color)->where('size','=',$request->size)->get('quantity');
 if($product->product_quantity>=$request->quantity){
   if($quantity>=$request->quantity){
-   $item=CartItem::create([
-   'cart_id'=>Auth::user()->id,
-   'product_id'=>$request->product_id,
-   'quantity'=>$request->quantity,
-   'color'=>$request->color,
-   'size'=>$request->size,
-   ]);
+   $item=new CartItem();
+   $item->cart_id=Auth::user()->id;
+   $item->size=$request->size;
+   $item->color=$request->color;
+   $item->quantity=$request->quantity;
+   $item->product_id=$request->product_id;
+   $item->save();
    }else {
       return response()->json('quantity of this color not enough');
    }
@@ -53,7 +55,6 @@ public function update($request,$id){
     'rating' => $product->rating,
     'brand_id'=>$product->brand_id,
     'category_id'=>$product->category_id,
-    'images'=>$product->image,
     ]);
 }
  else {
@@ -66,11 +67,15 @@ public function update($request,$id){
 ]);
 return $item;
 }
-public function ItemStatusUpdate($id,$order_id){
-   $item=CartItem::find($id);
-   $item->status=0;
-   $item->order_id=$order_id;
-   $item->save();
+public function ItemStatusUpdate($id){
+   $order=Order::where('user_id','=',$id)->latest()->first();
+   $items=CartItem::where('cart_id','=',$id)->get();
+   foreach($items as $item){
+      $item->status=0;
+      $item->order_id=$order->id;
+      $item->save();
+   }
+ 
 }
 public function destroy($id){
 $item=CartItem::find($id);

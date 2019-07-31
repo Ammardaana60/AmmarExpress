@@ -35,7 +35,7 @@ class User extends Authenticatable
      return $this->hasOne(Cart::class);
      }
    public function pocket(){
-       return $this->hasOne(pocket::class);
+       return $this->hasOne(Pocket::class);
    }
    public function address(){
        return $this->hasMany(Address::class);

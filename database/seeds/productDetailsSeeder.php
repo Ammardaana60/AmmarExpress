@@ -15,7 +15,7 @@ class productDetailsSeeder extends Seeder
     {
         
         $faker=Faker::create();
-        for($i=0;$i<15;$i++){
+        for($i=0;$i<25;$i++){
             
             $productDetails=new Productdetails();
             $productDetails->size=$faker->name;
@@ -24,7 +24,7 @@ class productDetailsSeeder extends Seeder
             $x=$productDetails->product_id=Product::all()->random()->id;
             $productDetails->save();
             $product=Product::find($x);
-            $product->product_quantity=$f;
+            $product->product_quantity+=$f;
             $product->save();
             }
            
