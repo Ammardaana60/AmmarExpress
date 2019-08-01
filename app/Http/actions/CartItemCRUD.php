@@ -11,7 +11,6 @@ use App\Order;
 use App\Productdetails;
 class CartItemCRUD {
 public function create($request){
-   // dd();
 $product=Product::find($request->product_id);
 $quantity=Productdetails::where('product_id','=',$request->product_id)->where('color','=',$request->color)->where('size','=',$request->size)->get('quantity');
 if($product->product_quantity>=$request->quantity){
@@ -29,15 +28,12 @@ if($product->product_quantity>=$request->quantity){
  }else {
     return 'the quantity available is'.$product->product_quantity;
  }
-Cache::forget('cart.'.Auth::user()->id);
-$cartitems=CartItem::all();
-foreach($cartitems as $cartitem){
-Redis::hmset('cart.'.$request->cart_id.'item.'.$cartitem->id,[
-'cart_id'=>$cartitem->cart_id,
-'product_id'=>$cartitem->product_id,
-'quantity'=>$cartitem->quantity,
+Redis::hmset('cart.'.$request->cart_id.'item.'.$item->id,[
+'cart_id'=>$item->cart_id,
+'product_id'=>$item->product_id,
+'quantity'=>$item->quantity,
 ]);
-}
+
 return $item;
 }
 public function update($request,$id){
@@ -46,7 +42,7 @@ public function update($request,$id){
  if($product->product_quantity>=$request->quantity){
  $item->quantity=$request->quantity;
  $item->save();
- Cache::put('product.'.$product->id,[
+Redis::hmset('product.'.$product->id,[
     'id' => $product->id,
     'product_name' => $product->product_name,
     'product_description' => $product->product_description,
@@ -60,7 +56,7 @@ public function update($request,$id){
  else {
     return 'the quantity available isn'.$product->product_quantity;
 }
- Cache::put('cart.'.Auth::user()->id.'item.'.$item->id,[
+Redis::hmset('cart.'.Auth::user()->id.'item.'.$item->id,[
 'cart_id'=>$item->cart_id,
 'product_id'=>$item->product_id,
 'quantity'=>$item->quantity,

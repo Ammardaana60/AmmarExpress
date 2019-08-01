@@ -12,19 +12,16 @@ use Auth;
 
 class CartCRUD{
   public function create($id){
-  Cart::create([
+ $cart=Cart::create([
    'user_id'=>$id,
    'status'=>'new',
    ]);
-   cache::forget('cart.*');
-   $carts=Cart::all();
-   foreach($carts as $cart){
     Redis::hmset('cart.'.$cart->id,[
        'id' => $cart->id,
        'user_id' => $cart->user_id,
        'status' => $cart->status,
         ]);
-    }
+ 
   }
   public function show(){
     return response()->json(CartItem::where('cart_id','=',Auth::user()->id)->where('status','=',1)->get());  

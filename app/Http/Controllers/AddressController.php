@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\actions\AddressFacade;
-
+use App\Http\Requests\AddressRequest;
 class AddressController extends Controller
 {
     public function create(){

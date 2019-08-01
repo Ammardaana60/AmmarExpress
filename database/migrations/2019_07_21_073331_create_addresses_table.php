@@ -18,6 +18,9 @@ class CreateAddressesTable extends Migration
          $table->unsignedBigInteger('order_id')->nullable();
          $table->foreign('user_id')->references('id')->on('users');
          $table->foreign('order_id')->references('id')->on('orders');
+         $table->integer('country_id');
+         $table->integer('city_id');
+         $table->integer('postal_code');
          $table->timestamps();
         });
     }

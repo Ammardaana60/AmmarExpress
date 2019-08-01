@@ -1,10 +1,4 @@
 <?php
-use App\Jobs\address;
-use App\Events\CreateOrder;
-// use App\Notifications\productAddToCart;
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
 //search by productname using Algolia
 Route::post('/search','productController@search');
@@ -48,8 +42,5 @@ Route::get('/category','ApiResourcesController@categories');
 Route::get('/brands','ApiResourcesController@brands');
 Route::get('/products','ApiResourcesController@products');
 
-Route::get('/',function(){
-// event(new create());
-// dispatch(new address());
-event(new CreateOrder());
-});
+// Address
+Route::middleware('auth:api')->post('/address','AddressController@update');

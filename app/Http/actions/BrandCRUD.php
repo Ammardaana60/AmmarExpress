@@ -13,45 +13,33 @@ class BrandCRUD{
   return $brand;
    }
     public function create($request){
-     $newbrand=Brand::create([
+     $brand=Brand::create([
         'brand_name'=>$request->brand_name,'user_id'=>Auth::user()->id,'category_id'=>$request->category_id,
      ]);
-    cache::forget('brand.*');
-    $brands=Brand::all();
-    foreach($brands as $brand){
-     Redis::hmset('brand.'.$brand->id,
-     [
-       'id'=> $brand->id,
+    Cache::put('brand.'.$brand->id,
+     ['id'=> $brand->id,
        'brand_name'=>$brand->brand_name,
        'category_id'=> $brand->category_id,
        'user_id'=>$brand->user_id,
-     ]);
-    }
-    
-    return $newbrand;
+     ]);   
+    return $brand;
     }
     public function show($id){
-      return cache::get('brand.'.$id);
+      return Cache::get('brand.'.$id);
     }
     public function index(){
-      $keys=Redis::keys('brand.*');
-      $client=[];
-      foreach($keys as $key){
-         $client[]=Redis::hgetall('brand.'.substr($key,strlen($key)-2,strlen($key)));
-      }
-       return  $client;
+      return Cache::get('brand');
     }
     public function update($request,$id){
         $brand=Brand::find($id);
         $brand->brand_name=$request->brand_name;
         $brand->user_id=$request->user_id;
         $brand->save();
-         Redis::hmset('brand.'.$brand->id,
-         [
-       'id'=> $brand->id,
-       'brand_name'=>$brand->brand_name,
-       'category_id'=> $brand->category_id,
-       'user_id'=>$brand->user_id,
+        Cache::put('brand.'.$brand->id,
+         ['id'=> $brand->id,
+         'brand_name'=>$brand->brand_name,
+         'category_id'=> $brand->category_id,
+         'user_id'=>$brand->user_id,
          ]);
        
         return $brand;
@@ -59,16 +47,6 @@ class BrandCRUD{
     public function destroy($id){
      $b=Brand::find($id);
      $b->delete();
-     Redis::del('brand.*');
-     $brands=Brand::all();
-        foreach($brands as $brand){
-         Redis::hmset('brand.'.$brand->id,
-         [
-            'id'=> $brand->id,
-            'brand_name'=>$brand->brand_name,
-            'category_id'=> $brand->category_id,
-            'user_id'=>$brand->user_id,
-         ]);
-        }
+     Cache::del('brand.'.$b->id);
     }
 }

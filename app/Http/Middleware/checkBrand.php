@@ -15,15 +15,12 @@ class checkBrand
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {$brand=Brand::where('user_id','=',Auth::user()->id)->get();
+    {$brand=Brand::where('user_id','=',Auth::user()->id)->first();
+        if($brand!=null){
         $check=Brand::find($request->brand_id);
         if($check->user_id==Auth::user()->id){
-          if($brand->count()>0)
-          return $next($request);
-          else 
-            return response()->json('please your create brand ');
-        }else {
-            return response()->json('not authorized to CRUD this brand');
-        }      
+            return $next($request);
+        }else {return response()->json('not authorized to CRUD this brand');}
+       } else{return response()->json('create brand before products');}
     }
 }

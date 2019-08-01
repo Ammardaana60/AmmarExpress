@@ -9,7 +9,7 @@ class productDetailsCRUD
         $x=0;       
             $productDetails=new Productdetails();
             $productDetails->size=$pro->size;
-            $x=$x+$productDetails->quantity=$pro->itemquantity;
+            $x=$x+$productDetails->quantity=$pro->quantity;
             $productDetails->color=$pro->color;
             $productDetails->product_id=$id;
             $productDetails->save();

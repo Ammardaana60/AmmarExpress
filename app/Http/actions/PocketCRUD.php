@@ -32,7 +32,7 @@ class PocketCRUD {
     $pocket=Pocket::find(Auth::user()->id);
     if($pocket->currency=='dollar'){
     $pocket->cash=$pocket->cash+($request->cash*0.71);
-    $pocket->currency=$request->currency;
+    $pocket->currency='dinar';
     $pocket->save();
     }else 
     if($pocket->currency=='dinar'){

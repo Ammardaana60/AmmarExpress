@@ -24,8 +24,8 @@ class AddressRequest extends FormRequest
     public function rules()
     {
         return [
-           'country_id'=>'required',
-           'city_id'=>'required',
+           'country'=>'required',
+           'city'=>'required',
            'postal_code'=>'required',
            
         ];
