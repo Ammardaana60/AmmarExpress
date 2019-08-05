@@ -19,7 +19,8 @@ class CreateCartItemsTable extends Migration
             $table->string('color');         
             $table->integer('quantity');
             $table->boolean('status')->default(1);
-            $table->integer('cart_id')->unsigned();
+            $table->longText('token')->nullable();
+            $table->integer('cart_id')->unsigned()->nullable();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('order_id')->nullable();
             $table->foreign('cart_id')->references('id')->on('carts')->onDelete('cascade');

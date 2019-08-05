@@ -17,12 +17,13 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
+            $table->longText('apiTokens')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role', ['normal', 'supplier' , 'admin'])->default('normal');
-            $table->integer('city_id');
             $table->integer('country_id');
-            $table->integer('postal_code')->nullable();
+            $table->integer('city_id');
+            $table->integer('postal_code');
             $table->rememberToken();
             $table->timestamps();
         });

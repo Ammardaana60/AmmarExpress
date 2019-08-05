@@ -69,8 +69,9 @@ class Kernel extends HttpKernel
         'checkIdPocket'=>\App\Http\Middleware\checkIdPocket::class,
         'checkBrand'=>\App\Http\Middleware\checkBrand::class,
         'TokenCheck'=>\App\Http\Middleware\TokenCheck::class,
+        'checkUserOrGuest'=>\App\Http\Middleware\checkUserOrGuest::class,
     ];
-
+    // checkUserOrGuest
 
     /**
      * The priority-sorted list of middleware.

@@ -26,5 +26,8 @@ class productController extends Controller
     public function destroy($id){
         return response()->json(ProductFacade::destroyProduct($id));
     }
+    public function readExcelFile(Request $filename){
+        return response()->json(ProductFacade::readExcelFile($filename));
+    }
 
 }

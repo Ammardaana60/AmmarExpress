@@ -15,11 +15,10 @@ class TokenCheck
      */
     public function handle($request, Closure $next)
     {
-        
-       $token=session()->get(1);
+     $token=session()->get(1);
       if($token==$request->_token){
        return $next($request);
       }else 
-        return response()->json('unauthorized');
+        return response()->json('unauthorized..');
     }
 }

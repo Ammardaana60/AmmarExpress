@@ -16,6 +16,8 @@ use App\Http\actions\CartItemFacade;
 use App\Http\actions\AddressFacade;
 use App\Pocket;
 use Auth;
+use App\Http\actions\OrderAddressFacade;
+
 class paymentprocsss implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -25,12 +27,13 @@ class paymentprocsss implements ShouldQueue
      *
      * @return void
      */
-    public $cartItem,$user_id,$cartPrice;
-    public function __construct($cartItem,$user_id,$cartPrice)
+    public $cartItem,$user_id,$cartPrice,$address_id;
+    public function __construct($cartItem,$user_id,$cartPrice,$address_id)
     {
         $this->cartItem=$cartItem;
         $this->user_id=$user_id;
         $this->cartPrice=$cartPrice;
+        $this->address_id=$address_id;
     }
 
     /**
@@ -45,7 +48,8 @@ class paymentprocsss implements ShouldQueue
         $pocket->save();
         CartFacade::UpdateQuantity($this->cartItem);
         orderFacade::create($this->user_id);
-        AddressFacade::create($this->user_id);
+      //  AddressFacade::create($this->user_id);
+        OrderAddressFacade::createOrderAddress($this->user_id,$this->address_id);
         CartItemFacade::ItemStatusUpdate($this->user_id);
         transactionFacade::create($this->cartItem,$this->user_id);
         ProductFacade::ProductStatus($this->cartItem);

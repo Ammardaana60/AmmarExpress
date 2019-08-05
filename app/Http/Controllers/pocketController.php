@@ -14,8 +14,8 @@ class pocketController extends Controller
     public function update(Request $request){
     return response()->json(PocketFacade::update($request));
     }
-    public function payment(){
-    return response()->json(PocketFacade::payment());
+    public function payment(Request $request){
+    return response()->json(PocketFacade::payment($request));
     }
     
 }

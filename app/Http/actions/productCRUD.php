@@ -1,10 +1,10 @@
 <?php
 namespace App\Http\actions;
-use Auth;
-use Illuminate\Support\Facades\Redis;        
+use Auth;     
 use Illuminate\Support\Facades\Cache;        
-use Illuminate\Support\Facades\DB;
+use Rap2hpoutre\FastExcel\FastExcel;
  use App\Product;
+ use Illuminate\Support\Facades\Storage;
 class productCRUD{
    public function search($request){
       $products=new Product();
@@ -100,11 +100,38 @@ class productCRUD{
      return 'quantity not enough';
      } 
     public function index(){
-    $product=DB::select('select rating,product_price,images,product_name,product_description from products where status=1');
-    return $product;
+    return Cache::get('product');
     }
-    public function AR_index(){
-    $product=DB::select('select rating,product_price,images,ARproduct_name,ARproduct_description from products where status=1');
-    return $product;
+    public function readExcelFile($filename){
+      try{
+        $path = $filename->file('import_file')->store('excel-files');
+        $collection = (new FastExcel)->import(storage_path('app/' . $path));
+        foreach($collection as $pro){                 
+          $url = $pro['picture'];
+          $contents = file_get_contents($url);
+          $name = substr($url, strrpos($url, '/') + 1);
+          Storage::put($name, $contents);
+          $urls=Storage::url($name);    
+          $product=new Product();
+            $product->addMediaFromUrl($url)->toMediaCollection();
+            $product->brand_id=$pro['brand_id'];
+            $product->discount=$pro['discount'];
+            $product->category_id=$pro['category_id'];
+            $product->product_name=$pro['product_name'];
+            $product->product_description=$pro['product_description'];
+            $product->properities=$pro['properities'];
+            $product->tag=$pro['tag'];
+            $product->ARproduct_name=$pro['Arproduct_name'];
+            $product->ARproduct_description=$pro['Arproduct_description'];
+            $product->product_price=$pro['product_price'];
+            $product->status=1;
+            $product->product_quantity=0;
+            $product->save(); 
+          }
+     
     }
+    catch(\Exception $e){
+      \Log::Error('fucken error:'.$e->getMessage());
+  }
+  }
 }

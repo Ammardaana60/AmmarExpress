@@ -7,11 +7,13 @@ use Auth;
 use Illuminate\Support\Facades\Redis;
 use App\CartItem;
 use App\Product;
+use App\User;
 use App\Order;
+use App\Http\Requests\CartItemRequest;
 use App\Productdetails;
 class CartItemCRUD {
-public function create($request){
-$product=Product::find($request->product_id);
+public function create(CartItemRequest $request){
+   $product=Product::find($request->product_id);
 $quantity=Productdetails::where('product_id','=',$request->product_id)->where('color','=',$request->color)->where('size','=',$request->size)->get('quantity');
 if($product->product_quantity>=$request->quantity){
   if($quantity>=$request->quantity){
@@ -28,13 +30,17 @@ if($product->product_quantity>=$request->quantity){
  }else {
     return 'the quantity available is'.$product->product_quantity;
  }
-Redis::hmset('cart.'.$request->cart_id.'item.'.$item->id,[
-'cart_id'=>$item->cart_id,
-'product_id'=>$item->product_id,
-'quantity'=>$item->quantity,
-]);
-
 return $item;
+}
+public function CreateForGuest($request){
+  $item=new CartItem();
+   $item->token=$request->header('Authorization');
+   $item->size=$request->size;
+   $item->color=$request->color;
+   $item->quantity=$request->quantity;
+   $item->product_id=$request->product_id;
+   $item->save();
+   return $item;
 }
 public function update($request,$id){
  $item=CartItem::find($id);
@@ -56,11 +62,7 @@ Redis::hmset('product.'.$product->id,[
  else {
     return 'the quantity available isn'.$product->product_quantity;
 }
-Redis::hmset('cart.'.Auth::user()->id.'item.'.$item->id,[
-'cart_id'=>$item->cart_id,
-'product_id'=>$item->product_id,
-'quantity'=>$item->quantity,
-]);
+
 return $item;
 }
 public function ItemStatusUpdate($id){
