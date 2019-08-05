@@ -12,7 +12,7 @@ class excelproduct extends Command
      *
      * @var string
      */
-    protected $signature = 'command:excel {filename}';
+    protected $signature = 'command:excel {FileNameAndPath}';
 
     /**
      * The console command description.
@@ -38,7 +38,7 @@ class excelproduct extends Command
      */
     public function handle()
     {
-        $file = $this->argument('filename');
+        $file = $this->argument('FileNameAndPath');
         ProductFacade::readExcelFile($file);
         
     }

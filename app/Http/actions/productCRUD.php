@@ -104,15 +104,18 @@ class productCRUD{
     }
     public function readExcelFile($filename){
       try{
-        $path = $filename->file('import_file')->store('excel-files');
-        $collection = (new FastExcel)->import(storage_path('app/' . $path));
+
+      //filename variable conatin name and path of file 
+        $fileContent=file_get_contents($filename);
+        $name = substr($filename, strrpos($filename, '/') + 1);
+        Storage::put($name, $fileContent);
+        $collection = (new FastExcel)->import($filename);
         foreach($collection as $pro){                 
           $url = $pro['picture'];
           $contents = file_get_contents($url);
           $name = substr($url, strrpos($url, '/') + 1);
           Storage::put($name, $contents);
-          $urls=Storage::url($name);    
-          $product=new Product();
+           $product=new Product();
             $product->addMediaFromUrl($url)->toMediaCollection();
             $product->brand_id=$pro['brand_id'];
             $product->discount=$pro['discount'];
@@ -128,6 +131,7 @@ class productCRUD{
             $product->product_quantity=0;
             $product->save(); 
           }
+          return 'done';
      
     }
     catch(\Exception $e){
