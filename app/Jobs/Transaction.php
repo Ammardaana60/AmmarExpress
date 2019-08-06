@@ -7,7 +7,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Http\actions\transactionFacade;
+use App\Http\actions\TransactionFacade;
 class Transaction implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -31,7 +31,7 @@ class Transaction implements ShouldQueue
     public function handle()
     { 
         try{
-        transactionFacade::create($this->param);
+        TransactionFacade::create($this->param);
         }catch(\Exception $e){
             \Log::info('transaction job is failed');
         }

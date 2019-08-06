@@ -1,20 +1,22 @@
 <?php
+//search by tagging 
+Route::post('/tags','ProductController@tags');
 //search by productname using Algolia
-Route::post('/search','productController@search');
+Route::post('/search','ProductController@search');
 //search by brands 
 Route::post('/search/{brand}','BrandController@search');
 
 //userCRUD and resources
-Route::post('/login','usercontroller@login');
-Route::post('/register','usercontroller@register');
+Route::post('/login','UserController@login');
+Route::post('/register','UserController@register');
 
 //product CRUD and resources
-Route::get('/products','productController@index');
-Route::middleware('auth:api')->post('/products','productController@create')->middleware('checkRole')->middleware('checkBrand');
-Route::get('/products/{id}','productController@show');
-Route::middleware('auth:api')->delete('/products/{id}','productController@destroy')->middleware('checkId');
-Route::middleware('auth:api')->put('/products/{id}','productController@update');  
-Route::post('/excelproducts','productController@readExcelFile');
+Route::get('/products','ProductController@index');
+Route::middleware('auth:api')->post('/products','ProductController@create')->middleware('checkRole')->middleware('checkBrand');
+Route::get('/products/{id}','ProductController@show');
+Route::middleware('auth:api')->delete('/products/{id}','ProductController@destroy')->middleware('checkId');
+Route::middleware('auth:api')->put('/products/{id}','ProductController@update');  
+Route::post('/excelproducts','ProductController@readExcelFile');
 //BrandCRUD and resources
 Route::middleware('auth:api')->post('/brands','BrandController@create')->middleware('checkRole');
 Route::get('/brands','BrandController@index');
@@ -33,8 +35,8 @@ Route::middleware('auth:api')->delete('/cartitems/{id}','CartItemController@dest
 //->middleware('checkUserOrGuest')
 
 //pockets
-Route::middleware('auth:api')->put('/pocket','pocketController@update');
-Route::middleware('auth:api')->post('/payment','pocketController@payment');
+Route::middleware('auth:api')->put('/pocket','PocketController@update');
+Route::middleware('auth:api')->post('/payment','PocketController@payment');
 //resources//
 Route::get('/profile/{id}','ApiResourcesController@profile');
 Route::get('/category','ApiResourcesController@categories');

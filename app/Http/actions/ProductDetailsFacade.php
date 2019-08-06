@@ -1,10 +1,10 @@
 <?php
 namespace App\Http\actions;
 use Illuminate\Support\Facades\Facade;
-use App\Http\actions\productDetailsCRUD;
-class productDetailsFacade extends Facade{
+use App\Http\actions\ProductDetailsCRUD;
+class ProductDetailsFacade extends Facade{
     
     protected static function getFacadeAccessor(){
-        return productDetailsCRUD::class;
+        return ProductDetailsCRUD::class;
     }
 }

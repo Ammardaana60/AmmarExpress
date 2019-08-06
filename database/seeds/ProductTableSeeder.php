@@ -23,8 +23,8 @@ class ProductTableSeeder extends Seeder
             $product->product_description=$faker->paragraph();
             $product->properities=$faker->sentence;
             $product->tag=$faker->name;
-            $product->ARproduct_name='َقْرَأَ كِتَابً';
-            $product->ARproduct_description='نْتُ أُرِيدُ أَنْ أَقْرَأَ كِتَابًا عَنْ تَارِيخِ ٱلْمَرْأَةِ فِي فَرَنْسَا';
+            $product->product_nameAR='َقْرَأَ كِتَابً';
+            $product->product_descriptionAR='نْتُ أُرِيدُ أَنْ أَقْرَأَ كِتَابًا عَنْ تَارِيخِ ٱلْمَرْأَةِ فِي فَرَنْسَا';
             $product->product_price=1000;
             $product->status=1;
             $product->product_quantity=0;

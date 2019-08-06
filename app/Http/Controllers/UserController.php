@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Http\Request;
 use App\Http\actions\UserFacade;
-
 use App\Http\Requests\loginRequest;
-// use App\Http\Controllers\UserFacade;
 use App\Http\Requests\registerRequest;
 use Auth;
-class usercontroller extends Controller
+class UserController extends Controller
 {
     public function login(loginRequest $request){
      $x=UserFacade::login($request);

@@ -2,7 +2,6 @@
 namespace App\Http\actions;
 use Illuminate\Support\Facades\Hash;
 use App\User;
-use Illuminate\Http\Response;
 use Auth;
 class UserCRUD {
   public function login($request){

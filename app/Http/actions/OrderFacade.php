@@ -3,10 +3,10 @@ namespace App\Http\actions;
 
 use Illuminate\Support\Facades\Facade;
 
-class orderFacade extends Facade {
+class OrderFacade extends Facade {
 
 protected static function getFacadeAccessor(){
-    return orderCRUD::class;
+    return OrderCRUD::class;
 }
 
 }

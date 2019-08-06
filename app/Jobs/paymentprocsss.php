@@ -7,10 +7,10 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Http\actions\transactionFacade;
+use App\Http\actions\TransactionFacade;
 use App\Http\actions\UserFacade;
 use App\Http\actions\CartFacade;
-use App\Http\actions\orderFacade;
+use App\Http\actions\OrderFacade;
 use App\Http\actions\ProductFacade;
 use App\Http\actions\CartItemFacade;
 use App\Http\actions\AddressFacade;
@@ -47,12 +47,12 @@ class paymentprocsss implements ShouldQueue
         $pocket->cash=$pocket->cash-$this->cartPrice;
         $pocket->save();
         CartFacade::UpdateQuantity($this->cartItem);
-        orderFacade::create($this->user_id);
+        OrderFacade::create($this->user_id);
       //  AddressFacade::create($this->user_id);
         OrderAddressFacade::createOrderAddress($this->user_id,$this->address_id);
         CartItemFacade::ItemStatusUpdate($this->user_id);
-        transactionFacade::create($this->cartItem,$this->user_id);
-        ProductFacade::ProductStatus($this->cartItem);
+        TransactionFacade::create($this->cartItem,$this->user_id);
+        ProductFacade::Status($this->cartItem);
         
         }catch(\Exception $e){
         \Log::info('fucken error:'.$e->getMessage());

@@ -6,25 +6,28 @@ use Illuminate\Http\Request;
 use App\Http\actions\ProductFacade;
 use App\Http\Requests\productRequest;
 use App\Http\Requests\UpdateRequest;
-class productController extends Controller
+class ProductController extends Controller
 {
+    public function tags(Request $request){
+        return response()->json(ProductFacade::tags($request));
+    }
     public function search(Request $request){
         return response()->json(ProductFacade::search($request->task));
     }
     public function create(productRequest $request){
-    return response()->json(ProductFacade::createProduct($request));
+    return response()->json(ProductFacade::Create($request));
     }
     public function show($id){      
-        return response()->json(ProductFacade::showProduct($id));
+        return response()->json(ProductFacade::show($id));
     }
     public function index(){
         return response()->json(ProductFacade::index());
     }
     public function update($id,UpdateRequest $request){
-        return response()->json(ProductFacade::updateProduct($id,$request));
+        return response()->json(ProductFacade::Update($id,$request));
     }
     public function destroy($id){
-        return response()->json(ProductFacade::destroyProduct($id));
+        return response()->json(ProductFacade::Destroy($id));
     }
     public function readExcelFile(Request $filename){
         return response()->json(ProductFacade::readExcelFile($filename->import_file));

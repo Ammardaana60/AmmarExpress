@@ -7,7 +7,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Http\actions\orderFacade;
+use App\Http\actions\OrderFacade;
 
 class orderJob implements ShouldQueue
 {
@@ -33,7 +33,7 @@ class orderJob implements ShouldQueue
     {
         
     try{
-       orderFacade::create($this->user_id);
+       OrderFacade::create($this->user_id);
     }catch(\Exception $e){
         \Log::info('order error'.$e->getMessage());
     }

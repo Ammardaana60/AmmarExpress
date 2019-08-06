@@ -3,14 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-// use Laravel\Scout\Searchable;Searchable,
-// use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\Tags\HasTags;
 class Product extends Model implements HasMedia
 {
-    use HasMediaTrait;
-    protected $fillable=['images','brand_id','ARproduct_name','ARproduct_description','product_price','category_id','product_name','product_quantity','product_rating','product_description','tag','properities','discount','status'];
+    use HasMediaTrait,HasTags;
+    protected $fillable=['brand_id','product_nameAR','product_descriptionAR','product_price','category_id','product_name','product_quantity','product_rating','product_description','properities','discount','status'];
     protected $with = ['comments','details'];
     public function comments(){
         return $this->hasMany(Comment::class);

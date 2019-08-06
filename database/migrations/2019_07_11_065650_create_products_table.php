@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProductsTable extends Migration
+class CreatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -21,12 +21,11 @@ class CreateProductsTable extends Migration
             $table->longText('product_description');
             $table->float('product_price')->unsigned();
             $table->integer('product_quantity')->unsigned();
-            $table->string('ARproduct_name');
-            $table->longText('ARproduct_description');
+            $table->string('product_nameAR');
+            $table->longText('product_descriptionAR');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('brand_id');
             $table->string('properities');
-            $table->string('tag');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
             // $table->SoftDeletes();

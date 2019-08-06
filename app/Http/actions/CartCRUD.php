@@ -5,31 +5,29 @@ use App\Productdetails;
 use App\Cart;
 use App\CartItem;
 use Auth;
-
 class CartCRUD{
-  public function create($id){
+public function create($id){
  Cart::create([
    'user_id'=>$id,
    'status'=>'new',
    ]);
    
-  }
-  public function show(){
-    return response()->json(CartItem::where('cart_id','=',Auth::user()->id)->where('status','=',1)->get());  
-   }
+}
+public function show(){
+  return response()->json(CartItem::where('cart_id','=',Auth::user()->id)->where('status','=',1)->get());  
+}
 
-   public function totalPrice($items){
-    $totalprice=0;
-    foreach($items as $item){
-      $itemDiscount=Productdetails::where('product_id','=',$item->product_id)->where('color','=',$item->color)->where('size','=',$item->size)->first();
-     // if($itemDiscount->quantity>=$item->quantity){
-      $product=$item->product;
+public function totalPrice($items){
+ $totalprice=0;
+ foreach($items as $item){
+ $itemDiscount=Productdetails::where('product_id','=',$item->product_id)->where('color','=',$item->color)->where('size','=',$item->size)->first();
+    if($itemDiscount->quantity>=$item->quantity){
+        $product=$item->product;
         $discount=$product->product_price*($product->discount+$itemDiscount->discount);
         $totalprice+=($product->product_price-$discount)*$item->quantity;
-      //}
-      //else{return 0;}
-      
-   return $totalprice;
+    }else{
+       return 0;}
+    return $totalprice;
     }
   }
  public function UpdateQuantity($items){

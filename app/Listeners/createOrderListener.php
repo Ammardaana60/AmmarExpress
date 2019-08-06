@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Http\actions\orderFacade;
+use App\Http\actions\OrderFacade;
 use App\Events\CreateOrder;
 class createOrderListener implements ShouldQueue
 {

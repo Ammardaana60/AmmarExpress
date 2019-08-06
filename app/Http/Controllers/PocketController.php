@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\pocket;
 use App\Http\actions\PocketFacade;
 
-class pocketController extends Controller
+class PocketController extends Controller
 {
     public function createPocket(){
     return response()->json(PocketFacade::createPocket());
