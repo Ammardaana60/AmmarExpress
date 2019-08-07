@@ -21,12 +21,12 @@ public function  update($request){
      $pocket->cash=$pocket->cash+$request->cash;
      $pocket->currency=$request->currency;
      $pocket->save();
-     return response()->json($pocket->cash);
+     return $pocket;
     }else{
       return "this currency isn't allow now";
     }
 }
-public function payment($request){
+public function checkout($request){
     $user=User::find(Auth::user()->id);
     $pocket=$user->pocket;
     $cartItem=$user->cart->items->where('status','=',1);

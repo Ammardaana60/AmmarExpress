@@ -10,13 +10,11 @@ public function create($id){
  Cart::create([
    'user_id'=>$id,
    'status'=>'new',
-   ]);
-   
+   ]); 
 }
-public function show(){
-  return response()->json(CartItem::where('cart_id','=',Auth::user()->id)->where('status','=',1)->get());  
+public function index(){
+  return CartItem::where('cart_id','=',Auth::user()->id)->where('status','=',1)->get();  
 }
-
 public function totalPrice($items){
  $totalprice=0;
  foreach($items as $item){

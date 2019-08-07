@@ -14,8 +14,8 @@ class Product extends Model implements HasMedia
     public function comments(){
         return $this->hasMany(Comment::class);
     }
-    public function categories(){
-        return $this->belongsToMany(Category::class);
+    public function category(){
+        return $this->belongsTo(Category::class);
     }
     public function details(){
         return $this->hasMany(Productdetails::class);

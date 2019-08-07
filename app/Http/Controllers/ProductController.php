@@ -9,22 +9,22 @@ use App\Http\Requests\UpdateRequest;
 class ProductController extends Controller
 {
     public function create(productRequest $request){
-    return response()->json(ProductFacade::Create($request));
+    return new ProductFilteringResources(ProductFacade::Create($request));
     }
     public function show($id){      
-        return response()->json(ProductFacade::show($id));
+        return new ProductFilteringResources(ProductFacade::show($id));
     }
     public function index(Request $request){
-        return response()->json(ProductFacade::index($request));
+        return ProductFilteringResources::collection(ProductFacade::index($request));
     }
     public function update($id,UpdateRequest $request){
-        return response()->json(ProductFacade::Update($id,$request));
+        return new ProductFilteringResources(ProductFacade::Update($id,$request));
     }
     public function destroy($id){
-        return response()->json(ProductFacade::Destroy($id));
+        return new ProductFilteringResources(ProductFacade::Destroy($id));
     }
     public function readExcelFile(Request $filename){
-        return response()->json(ProductFacade::readExcelFile($filename->import_file));
+        return ProductFilteringResources::collection(ProductFacade::readExcelFile($filename->import_file));
     }
 
 }

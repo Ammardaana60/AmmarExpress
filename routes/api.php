@@ -17,30 +17,19 @@ Route::get('/brands','BrandController@index');
 Route::get('/brands/{id}','BrandController@show');
 Route::middleware('auth:api')->put('/brands/{id}','BrandController@update')->middleware('checkIdBrand');
 Route::middleware('auth:api')->delete('brands/{id}','BrandController@destroy')->middleware('checkIdBrand');
-// Route::get('/buynow/{id}','CartController@buyNow')->middleware('checkIdCart');
-
 //cartCRUD 
-Route::middleware('auth:api')->get('/carts','CartController@show');
-Route::middleware('auth:api')->delete('/carts','CartController@clearCart')->middleware('checkIdCart');
+Route::middleware('auth:api')->get('/carts','CartController@index');
 //cartItemCRUD
 Route::middleware('auth:api')->post('/cartitems','CartItemController@create');
 Route::middleware('auth:api')->put('/cartitems/{id}','CartItemController@update')->middleware('checkIdCartItem');
 Route::middleware('auth:api')->delete('/cartitems/{id}','CartItemController@destroy')->middleware('checkIdCartItem');
-//->middleware('checkUserOrGuest')
-
 //pockets
 Route::middleware('auth:api')->put('/pocket','PocketController@update');
-Route::middleware('auth:api')->post('/payment','PocketController@payment');
+Route::middleware('auth:api')->post('/checkout','PocketController@checkout');
 //resources//
 Route::get('/profile/{id}','ApiResourcesController@profile');
 Route::get('/category','ApiResourcesController@categories');
 Route::get('/brands','ApiResourcesController@brands');
 Route::get('/products','ApiResourcesController@products');
-
 // Address
 Route::middleware('auth:api')->post('/address','AddressController@create');
-Route::get('/tokens',function(){
-//dd($tokens =Request()->header('Authorization'));
-//$token=Request()->cookie($tokens);
-//return $token;
-});

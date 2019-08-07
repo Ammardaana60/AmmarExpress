@@ -3,6 +3,8 @@ namespace App\Http\actions;
 use Rap2hpoutre\FastExcel\FastExcel;
 use App\Product;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\ProductFilteringResources;
+
 class ProductCRUD{
 public function Create($pro){
       $tags=explode(',',$pro->tag);
@@ -21,7 +23,8 @@ public function Create($pro){
       $product->status=1;
       $product->product_quantity=0;
       $product->save(); 
-      return response()->json(ProductDetailsFacade::create($pro,$product->id));
+      ProductDetailsFacade::create($pro,$product->id);
+      return $product;
 }
 public function Update($id,$request){
       $product=Product::find($id);
@@ -54,11 +57,10 @@ public function Destroy($id){
       $product->save();
 }
 public function show($id){
-     $product=Product::find($id);
-     return $product;
+    return Product::find($id);
 } 
 public function index($request){
- return  Product::with('media')
+  return Product::with(['tags','media'])
   ->withAnyTags([$request->tags,''])
   ->where('brand_id','=',$request->brand_id)
   ->get();
@@ -94,6 +96,7 @@ public function ReadExcelFile($filename){
         foreach($collection as $pro){                 
         ProductFacade::CreateFromExcel($pro);
         }
+        return $collection;
         }catch(\Exception $e){
           \Log::Error('fucken error:'.$e->getMessage());
         }
