@@ -10,7 +10,7 @@ class Product extends Model implements HasMedia
 {
     use HasMediaTrait,HasTags;
     protected $fillable=['brand_id','product_nameAR','product_descriptionAR','product_price','category_id','product_name','product_quantity','product_rating','product_description','properities','discount','status'];
-    protected $with = ['comments','details'];
+    protected $with = ['comments','details'];  
     public function comments(){
         return $this->hasMany(Comment::class);
     }

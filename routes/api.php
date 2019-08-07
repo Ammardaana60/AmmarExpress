@@ -11,7 +11,7 @@ Route::post('/login','UserController@login');
 Route::post('/register','UserController@register');
 
 //product CRUD and resources
-Route::get('/products','ProductController@index');
+Route::get('/productsf','ProductController@index');
 Route::middleware('auth:api')->post('/products','ProductController@create')->middleware('checkRole')->middleware('checkBrand');
 Route::get('/products/{id}','ProductController@show');
 Route::middleware('auth:api')->delete('/products/{id}','ProductController@destroy')->middleware('checkId');

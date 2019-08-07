@@ -22,7 +22,6 @@ class ProductTableSeeder extends Seeder
             $product->product_name=$faker->name();
             $product->product_description=$faker->paragraph();
             $product->properities=$faker->sentence;
-            $product->tag=$faker->name;
             $product->product_nameAR='َقْرَأَ كِتَابً';
             $product->product_descriptionAR='نْتُ أُرِيدُ أَنْ أَقْرَأَ كِتَابًا عَنْ تَارِيخِ ٱلْمَرْأَةِ فِي فَرَنْسَا';
             $product->product_price=1000;

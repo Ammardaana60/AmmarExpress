@@ -5,7 +5,7 @@ use App\Product;
 use Illuminate\Support\Facades\Storage;
 class ProductCRUD{
 public function tags($request){
-return Product::withAnyTags([$request->tags,''])->get();;
+return Product::withAnyTags([$request->tags,''])->get();
 }
 public function search($request){
    $product=new Product();
@@ -64,13 +64,14 @@ public function show($id){
      $product=Product::find($id);
      return $product;
 } 
-public function index(){
-    $product=Product::all();
-    return $product;
-}
+public function index($request){
+      $product=new Product();
+ return  $product->with('media')
+  ->withAnyTags([$request->tags,''])
+  ->where('brand_id','=',$request->brand_id)
+  ->get();
+ }
 public function CreateFromExcel($pro){
-      // $tags=explode($pro['tag']);
-     //  $tags=explode(',',$pro['tag']);
        $url = $pro['picture'];
        $contents = file_get_contents($url);
        $name = substr($url, strrpos($url, '/') + 1);
