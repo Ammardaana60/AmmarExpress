@@ -4,13 +4,6 @@ use Rap2hpoutre\FastExcel\FastExcel;
 use App\Product;
 use Illuminate\Support\Facades\Storage;
 class ProductCRUD{
-public function tags($request){
-return Product::withAnyTags([$request->tags,''])->get();
-}
-public function search($request){
-   $product=new Product();
-   return $product->search($request)->paginate(5);
-}
 public function Create($pro){
       $tags=explode(',',$pro->tag);
       $product=new Product();
@@ -65,8 +58,7 @@ public function show($id){
      return $product;
 } 
 public function index($request){
-      $product=new Product();
- return  $product->with('media')
+ return  Product::with('media')
   ->withAnyTags([$request->tags,''])
   ->where('brand_id','=',$request->brand_id)
   ->get();

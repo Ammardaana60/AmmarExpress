@@ -1,11 +1,5 @@
 <?php
-//search by tagging 
-Route::post('/tags','ProductController@tags');
-//search by productname using Algolia
-Route::post('/search','ProductController@search');
-//search by brands 
-Route::post('/search/{brand}','BrandController@search');
-
+ 
 //userCRUD and resources
 Route::post('/login','UserController@login');
 Route::post('/register','UserController@register');

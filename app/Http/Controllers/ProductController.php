@@ -8,12 +8,6 @@ use App\Http\Requests\productRequest;
 use App\Http\Requests\UpdateRequest;
 class ProductController extends Controller
 {
-    public function tags(Request $request){
-        return response()->json(ProductFacade::tags($request));
-    }
-    public function search(Request $request){
-        return response()->json(ProductFacade::search($request->task));
-    }
     public function create(productRequest $request){
     return response()->json(ProductFacade::Create($request));
     }
