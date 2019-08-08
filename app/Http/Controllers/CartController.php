@@ -13,7 +13,7 @@ class CartController extends Controller
         return new CartResource(CartFacade::update($id,$request));
     }
     public function index(){
-        return new CartResource(CartFacade::index());
+        return CartResource::collection(CartFacade::index());
     }
 
 }
