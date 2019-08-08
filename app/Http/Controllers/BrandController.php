@@ -5,24 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\actions\BrandFacade;
 use App\Http\Requests\brandRequest;
+use App\Http\Resources\BrandResource;
+
 class BrandController extends Controller
 {
     public function create(brandRequest $request){
-        return response()->json(BrandFacade::create($request));
+        return new BrandResource(BrandFacade::create($request));
     }
     public function destroy($id){
-        return response()->json(BrandFacade::destroy($id));
+        return new BrandResource(BrandFacade::destroy($id));
     }
     public function update(brandRequest $request,$id){
-       return response()->json(BrandFacade::update($request,$id));
+       return new BrandResource(BrandFacade::update($request,$id));
     }
     public function show($id){
-        return response()->json(BrandFacade::show($id));
+        return new BrandResource(BrandFacade::show($id));
     }
     public function index(){
-        return response()->json(BrandFacade::index());
-    }
-    public function search($brand){
-        return response()->json(BrandFacade::search($brand));
+        return BrandResource::collection(BrandFacade::index());
     }
 }
