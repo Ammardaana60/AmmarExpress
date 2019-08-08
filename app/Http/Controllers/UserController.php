@@ -19,6 +19,6 @@ class UserController extends Controller
     }
     public function details(){
         
-        return response()->json(Auth::user()); 
+        return new UserResource(Auth::user()); 
     }
 }
